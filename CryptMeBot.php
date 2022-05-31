@@ -93,11 +93,11 @@ if($text == "/start"){
 	}
 	unlink("codes/$code.cme");
 	if(strlen($decrypt) >= 300){
-		file_put_contents("codes/$code-[CryptMe].cme", $decrypt);
+		file_put_contents("codes/DeCrypted-$code-[CryptMe].cme", $decrypt);
 		$bot->deleteMessage($chatID, $messageID);
 		$message = "✅<b>DeCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n$sign";
-		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
-		unlink("codes/$code-[CryptMe].cme");
+		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/DeCrypted-$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
+		unlink("codes/DeCrypted-$code-[CryptMe].cme");
 	}else{
 		$message = "✅<b>Your text message DeCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n\n⚙️<b>DeCrypted Text:</b> <code>$decrypt</code>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
@@ -119,11 +119,11 @@ if($text == "/start"){
 	}
 	unlink("codes/$code.cme");
 	if(strlen($encrypt) >= 300){
-		file_put_contents("codes/$code-[CryptMe].cme", $encrypt);
+		file_put_contents("codes/EnCrypted-$code-[CryptMe].cme", $encrypt);
 		$bot->deleteMessage($chatID, $messageID);
 		$message = "✅<b>EnCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n$sign";
-		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
-		unlink("codes/$code-[CryptMe].cme");
+		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/EnCrypted-$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
+		unlink("codes/EnCrypted-$code-[CryptMe].cme");
 	}else{
 		$message = "✅<b>Your text message EnCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n\n⚙️<b>EnCrypted Text:</b> <code>$encrypt</code>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
