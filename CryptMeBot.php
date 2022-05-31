@@ -11,7 +11,7 @@ if(!file_exists("CryptMe.php")){
 	copy('https://raw.githubusercontent.com/iNeoTeam/CryptMe/main/CryptMe.php', 'CryptMe.php');
 }
 require_once('iTelegram.php');
-include 'CryptMe.php';
+require_once('CryptMe.php');
 use iTelegram\Bot;
 define('API_KEY', "YOUR-TELEGRAM-BOT-TOKEN");
 
@@ -41,38 +41,39 @@ if(!file_exists("data/$chat_id/index.php")){
 	copy($api."/redirector.txt", "data/$chat_id/index.php");
 }
 if($text == "/start"){
-	$message = "<b>Hello <a href='tg://user?id=$chat_id'>$firstname</a> :D</b>
+	$message = "🖐<b>Hello <a href='tg://user?id=$chat_id'>$firstname</a> :D</b>
 
-Please send me a text message for EnCrypt or DeCrypt :D.
+✏️Please send me a text message for EnCrypt or DeCrypt :D. <a href='https://t.me/iNeoTeam/201'>[Read More]</a>
 
-<b>Bot Source Code:</b> <a href='https://github.com/iNeoTeam/TelegramBots/blob/main/CryptMeBot.php'>Download</a>
-<b>CryptMe GitHub:</b> <a href='https://github.com/iNeoTeam/CryptMe'>iNeoTeam/CryptMe</a>\n$sign";
+🌀<b>Bot Source Code:</b> <a href='https://github.com/iNeoTeam/TelegramBots/blob/main/CryptMeBot.php'>Download</a>
+🔐<b>CryptMe GitHub:</b> <a href='https://github.com/iNeoTeam/CryptMe'>iNeoTeam/CryptMe</a>\n$sign";
     $r = $bot->sendMessage($chat_id, $message, "HTML", true);
 	###########################################################################
 	###########################################################################
 }elseif(strpos($text, "/setpass") !== false){
 	$password = str_replace(array("/setpass", " "), null, $text);
 	$count = strlen($password);
+	$bot->deleteMessage($chat_id, $message_id);
 	if($password != null && $count >= 8 and $count <= 32){
-		$message = "<b>Set Password Successfully.</b>\n\n<b>Delete Password:</b> /delpass\n$sign";
+		$message = "✅<b>Set Password Successfully.</b>\n\n🔓<b>Delete Password:</b> /delpass\n$sign";
 		file_put_contents("data/$chat_id/cmepass.cme", $crypt->encode($password));
 	}else{
-		$message = "<b>Error occurred data.</b>
+		$message = "❌<b>Error occurred data.</b>
 
-The password may be empty.
-The password may not be between 8 to 32 characters.
+• The password may be empty.
+• The password may not be between 8 to 32 characters.
 
-<b>Example Set Password:</b>\n<code>/setpass MY_PASSWORD</code>\n$sign";
+⚙️<b>Example Set Password:</b>\n🔨<code>/setpass MY_PASSWORD</code>\n$sign";
 	}
-	$bot->sendMessage($chat_id, $message, "HTML", true, $message_id, null);
+	$bot->sendMessage($chat_id, $message, "HTML", true, null, null);
 	###########################################################################
 	###########################################################################
 }elseif($text == "/delpass"){
 	if(file_exists("data/$chatID/cmepass.cme")){
 		unlink("data/$chatID/cmepass.cme");
-		$message = "<b>Your service password has been removed.</b>\n\n<b>Set Password:</b> /setpass\n$sign";
+		$message = "✅<b>Your service password has been removed.</b>\n\n<b>Set Password:</b> /setpass\n$sign";
 	}else{
-		$message = "<b>Your service does not have a password.</b>\n$sign";
+		$message = "❗️<b>Your service does not have a password.</b>\n$sign";
 	}
 	$bot->sendMessage($chat_id, $message, "HTML", true, $message_id, null);
 	###########################################################################
@@ -86,7 +87,7 @@ The password may not be between 8 to 32 characters.
 	$base64 = file_get_contents("codes/$code.cme");
 	$decrypt = $crypt->decode(base64_decode($base64), $password);
 	if($decrypt == "fail"){
-		$message = "<b>Ooooppss, can't decrypt this text :(</b>\n$sign";
+		$message = "❗️<b>Ooooppss, can't decrypt this text :(</b>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 		exit;
 	}
@@ -94,11 +95,11 @@ The password may not be between 8 to 32 characters.
 	if(strlen($decrypt) >= 300){
 		file_put_contents("codes/$code-[CryptMe].cme", $decrypt);
 		$bot->deleteMessage($chatID, $messageID);
-		$message = "<b>DeCrypted text is long and is sent as a file.</b>\n<b>Code:</b> <code>$code</code>\n$sign";
+		$message = "✅<b>DeCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n$sign";
 		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
 		unlink("codes/$code-[CryptMe].cme");
 	}else{
-		$message = "<b>Your text message DeCrypted!</b>\n<b>Code:</b> <code>$code</code>\n\n<b>DeCrypted Text:</b> <code>$decrypt</code>\n$sign";
+		$message = "✅<b>Your text message DeCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n\n⚙️<b>DeCrypted Text:</b> <code>$decrypt</code>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 	}
 	###########################################################################
@@ -112,7 +113,7 @@ The password may not be between 8 to 32 characters.
 	$base64 = file_get_contents("codes/$code.cme");
 	$encrypt = $crypt->encode(base64_decode($base64), $password);
 	if($encrypt == "fail"){
-		$message = "<b>Ooooppss, can't encrypt this text :(</b>\n$sign";
+		$message = "❗️<b>Ooooppss, can't encrypt this text :(</b>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 		exit;
 	}
@@ -120,11 +121,11 @@ The password may not be between 8 to 32 characters.
 	if(strlen($encrypt) >= 300){
 		file_put_contents("codes/$code-[CryptMe].cme", $encrypt);
 		$bot->deleteMessage($chatID, $messageID);
-		$message = "<b>EnCrypted text is long and is sent as a file.</b>\n<b>Code:</b> <code>$code</code>\n$sign";
+		$message = "<✅b>EnCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n$sign";
 		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
 		unlink("codes/$code-[CryptMe].cme");
 	}else{
-		$message = "<b>Your text message EnCrypted!</b>\n<b>Code:</b> <code>$code</code>\n\n<b>EnCrypted Text:</b> <code>$encrypt</code>\n$sign";
+		$message = "✅<b>Your text message EnCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n\n⚙️<b>EnCrypted Text:</b> <code>$encrypt</code>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 	}
 	###########################################################################
@@ -134,7 +135,7 @@ The password may not be between 8 to 32 characters.
 	$code = rand(10000, 99999);
 	$base64 = base64_encode($text);
 	file_put_contents("codes/$code.cme", $base64);
-	$message = "<b>Ok, your text was saved !</b>\n<b>Code:</b> <code>$code</code>\n\nWhat do you want to do with this text?\n$sign";
+	$message = "✅<b>Ok, your text was saved !</b>\n🔢<b>Code:</b> <code>$code</code>\n\n🖥What do you want to do with this text?\n$sign";
 	$button = json_encode(['inline_keyboard' => [
 	[['text' => "🔐EnCrypt", 'callback_data' => "encrypt_".$code], ['text' => "🔓DeCrypt", 'callback_data' => "decrypt_".$code]],
 	]]);
@@ -142,7 +143,7 @@ The password may not be between 8 to 32 characters.
 	###########################################################################
 	###########################################################################
 }else{
-	$message = "<b>Command not found :(</b>";
+	$message = "❌<b>Command not found :(</b>\n$sign";
 	$bot->sendMessage($chat_id, $message, "HTML", true, $message_id, null);
 	###########################################################################
 	###########################################################################
