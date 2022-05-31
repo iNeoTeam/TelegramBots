@@ -86,7 +86,7 @@ if($text == "/start"){
 	}
 	$base64 = file_get_contents("codes/$code.cme");
 	$decrypt = $crypt->decode(base64_decode($base64), $password);
-	if($decrypt == "fail"){
+	if($decrypt == "fail" or $decrypt == null){
 		$message = "❗️<b>Ooooppss, can't decrypt this text :(</b>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 		exit;
@@ -112,7 +112,7 @@ if($text == "/start"){
 	}
 	$base64 = file_get_contents("codes/$code.cme");
 	$encrypt = $crypt->encode(base64_decode($base64), $password);
-	if($encrypt == "fail"){
+	if($encrypt == "fail" or $encrypt == null){
 		$message = "❗️<b>Ooooppss, can't encrypt this text :(</b>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 		exit;
