@@ -8,13 +8,15 @@ if(!file_exists("iTelegram.php")){
     copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar', 'iTelegram.php');
 }
 if(!file_exists("CryptMe.php")){
-	copy('https://raw.githubusercontent.com/iNeoTeam/CryptMe/main/CryptMe.php', 'CryptMe.php');
+    copy('https://raw.githubusercontent.com/iNeoTeam/CryptMe/main/CryptMe.php', 'CryptMe.php');
+}
+if(!file_exists("redirector.php")){
+	copy($api."/redirector.txt", "redirector.php");
 }
 require_once('iTelegram.php');
 require_once('CryptMe.php');
 use iTelegram\Bot;
 define('API_KEY', "YOUR-TELEGRAM-BOT-TOKEN");
-
 $bot		= new Bot();
 $crypt		= new CryptMe();
 $bot->Authentification(API_KEY);
@@ -28,17 +30,15 @@ $chatID		= $bot->getInlineChatId();
 $messageID	= $bot->InlineMessageId();
 $data		= $update['callback_query']['data'];
 $sign		= "➖➖➖➖➖➖➖➖\n📣 @$channel";
+if(!file_exists("index.php")){ copy("redirector.php", "index.php"); }
 if(!file_exists("data/index.php")){
-	mkdir("data");
-	copy($api."/redirector.txt", "data/index.php");
+	mkdir("data"); copy("redirector.php", "data/index.php");
 }
 if(!file_exists("codes/index.php")){
-	mkdir("codes");
-	copy($api."/redirector.txt", "codes/index.php");
+	mkdir("codes"); copy("redirector.php", "codes/index.php");
 }
 if(!file_exists("data/$chat_id/index.php")){
-	mkdir("data/$chat_id");
-	copy($api."/redirector.txt", "data/$chat_id/index.php");
+	mkdir("data/$chat_id"); copy("redirector.php", "data/$chat_id/index.php");
 }
 if($text == "/start"){
 	$message = "🖐<b>Hello <a href='tg://user?id=$chat_id'>$firstname</a> :D</b>
@@ -68,10 +68,21 @@ if($text == "/start"){
 	$bot->sendMessage($chat_id, $message, "HTML", true, null, null);
 	###########################################################################
 	###########################################################################
+}elseif($text == "/mypass"){
+	if(file_exists("data/$chat_id/cmepass.cme")){
+		$password = $crypt->decode(file_get_contents("data/$chat_id/cmepass.cme"));
+		unlink("data/$chat_id/cmepass.cme");
+		$message = "✅<b>Your password DeCrypted.</b>\n\n🔐<b>Password:</b> <tg-spoiler>$password</tg-spoiler>\n$sign";
+	}else{
+		$message = "❗️<b>Your service does not have a password.</b>\n$sign";
+	}
+	$bot->sendMessage($chat_id, $message, "HTML", true, $message_id, null);
+	###########################################################################
+	###########################################################################
 }elseif($text == "/delpass"){
-	if(file_exists("data/$chatID/cmepass.cme")){
-		unlink("data/$chatID/cmepass.cme");
-		$message = "✅<b>Your service password has been removed.</b>\n\n<b>Set Password:</b> /setpass\n$sign";
+	if(file_exists("data/$chat_id/cmepass.cme")){
+		unlink("data/$chat_id/cmepass.cme");
+		$message = "✅<b>Your service password has been removed.</b>\n\n🔐<b>Set Password:</b> /setpass\n$sign";
 	}else{
 		$message = "❗️<b>Your service does not have a password.</b>\n$sign";
 	}
@@ -91,15 +102,17 @@ if($text == "/start"){
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 		exit;
 	}
+	$pass = "Without Password.";
+	if($password != null){ $pass = "<tg-spoiler>$password</tg-spoiler>"; }
 	unlink("codes/$code.cme");
 	if(strlen($decrypt) >= 300){
 		file_put_contents("codes/DeCrypted-$code-[CryptMe].cme", $decrypt);
 		$bot->deleteMessage($chatID, $messageID);
-		$message = "✅<b>DeCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n$sign";
+		$message = "✅<b>DeCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n🔐<b>Password:</b> $pass\n$sign";
 		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/DeCrypted-$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
 		unlink("codes/DeCrypted-$code-[CryptMe].cme");
 	}else{
-		$message = "✅<b>Your text message DeCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n\n⚙️<b>DeCrypted Text:</b> <code>$decrypt</code>\n$sign";
+		$message = "✅<b>Your text message DeCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n🔐<b>Password:</b> $pass\n\n⚙️<b>DeCrypted Text:</b> <code>$decrypt</code>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 	}
 	###########################################################################
@@ -117,15 +130,17 @@ if($text == "/start"){
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 		exit;
 	}
+	$pass = "Without Password.";
+	if($password != null){ $pass = "<tg-spoiler>$password</tg-spoiler>"; }
 	unlink("codes/$code.cme");
 	if(strlen($encrypt) >= 300){
 		file_put_contents("codes/EnCrypted-$code-[CryptMe].cme", $encrypt);
 		$bot->deleteMessage($chatID, $messageID);
-		$message = "✅<b>EnCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n$sign";
+		$message = "✅<b>EnCrypted text is long and is sent as a file.</b>\n🔢<b>Code:</b> <code>$code</code>\n🔐<b>Password:</b> $pass\n$sign";
 		$bot->sendDocument($chatID, new CURLFILE(realpath("codes/EnCrypted-$code-[CryptMe].cme")), $message, null, "HTML", null, null, null);
 		unlink("codes/EnCrypted-$code-[CryptMe].cme");
 	}else{
-		$message = "✅<b>Your text message EnCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n\n⚙️<b>EnCrypted Text:</b> <code>$encrypt</code>\n$sign";
+		$message = "✅<b>Your text message EnCrypted!</b>\n🔢<b>Code:</b> <code>$code</code>\n🔐<b>Password:</b> $pass\n\n⚙️<b>EnCrypted Text:</b> <code>$encrypt</code>\n$sign";
 		$bot->editMessage($chatID, $messageID, $message, "HTML", true, null);
 	}
 	###########################################################################
