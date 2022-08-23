@@ -301,7 +301,7 @@ $sign";
 	if($bot->InputMessageType() == "document"){
 		$bot->sendDocument($admin, $update['message']['document']['file_id'], safe($update['message']['caption']), null, "HTML", null, null, $button);
 	}elseif($bot->InputMessageType() == "audio"){
-		
+		$bot->sendAudio($admin, $update['message']['audio']['file_id'], safe($update['message']['caption']), null, null, null, null, "HTML", null, null, $button);
 	}elseif($bot->InputMessageType() == "voice"){
 		$bot->sendVoice($admin, $update['message']['voice']['file_id'], safe($update['message']['caption']), null, "HTML", null, null, $button);
 	}elseif($bot->InputMessageType() == "video"){
