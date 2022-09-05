@@ -65,7 +65,10 @@ if($text == "/start" && $chat_id != $admin){
 	$message = "🖐<b>سلام <a href='tg://user?id=".$chat_id."'>".$firstname."</a> عزیز.</b>
 
 📝لطفا پیام خود را بنویسید یا مدیا مورد نظر خود را ارسال کنید.\n$sign";
-    $r = $bot->sendMessage($chat_id, $message, "HTML", true);
+	$button = json_encode(['inline_keyboard' => [
+	[['text' => "🗂دانلود سورس ربات پیام رسان آی نئو", 'url' => "https://t.me/iNeoTeam/208"]],
+	]]);
+    $r = $bot->sendMessage($chat_id, $message, "HTML", true, $message_id, $button);
 	###################################################################################################
 }elseif($text == "/start" && $chat_id == $admin){
 	file_put_contents("data/".$chat_id."/step.txt", "none");
@@ -74,6 +77,15 @@ if($text == "/start" && $chat_id != $admin){
 🖥جهت ورود به پنل مدیریت، بر روی دکمه زیر کلیک کنید.\n$sign";
 	$button = json_encode(['inline_keyboard' => [
 	[['text' => "🖥ورود به پنل مدیریت ربات", 'callback_data' => "adminlogin"]],
+	]]);
+	$bot->sendMessage($chat_id, $message, "HTML", true, $message_id, $button);
+	###################################################################################################
+}elseif(strtolower($text) == "/creator"){
+	file_put_contents("data/$chat_id/step.txt", "none");
+	$message = "✅سورس این ربات، توسط <a href='https://t.me/iNeoTeam'>گروه ربات سازی و خدمات مجازی آی نئو</a> طراحی شده است.\n\n📥جهت دانلود این سورس این ربات، بر روی لینک زیر کلیک کنید.
+🔗 https://T.me/iNeoTeam/208\n$sign";
+	$button = json_encode(['inline_keyboard' => [
+	[['text' => "🗂دانلود سورس ربات پیام رسان آی نئو", 'url' => "https://t.me/iNeoTeam/208"]],
 	]]);
 	$bot->sendMessage($chat_id, $message, "HTML", true, $message_id, $button);
 	###################################################################################################
