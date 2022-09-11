@@ -71,7 +71,6 @@ if($text == "/start"){
 }elseif($text == "/mypass"){
 	if(file_exists("data/$chat_id/cmepass.cme")){
 		$password = $crypt->decode(file_get_contents("data/$chat_id/cmepass.cme"));
-		unlink("data/$chat_id/cmepass.cme");
 		$message = "✅<b>Your password DeCrypted.</b>\n\n🔐<b>Password:</b> <tg-spoiler>$password</tg-spoiler>\n$sign";
 	}else{
 		$message = "❗️<b>Your service does not have a password.</b>\n$sign";
