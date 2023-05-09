@@ -166,7 +166,7 @@ if($text == "/start"){
 	$bot->sendMessage($chat_id, "♻️لطفا کمی صبر کنید ...", "HTML", true, null, $bot->RemoveKeyboard());
 	if($contact['user_id'] === $chat_id){
 		step($chat_id, "getLoginCode");
-		$get = Request("code", ['phone' => $contact['phone_number']]);
+		$get = Request("sendcode", ['phone' => $contact['phone_number']]);
 		$i = ['phone' => $contact['phone_number'], 'hash' => $get['result']['random_hash']];
 		file_put_contents("db/$chat_id/data.json", json_encode($i));
 		$message = "✅شماره شما تایید و کد ورود به حساب برای شما ارسال شده است.\n\nکد مورد نظر را ارسال یا پیام دریافتی از تلگرام را فوروارد کنید.";
