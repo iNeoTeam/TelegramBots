@@ -3,7 +3,7 @@ error_reporting(0);
 set_time_limit(0);
 ob_start();
 if(!file_exists("iTelegram.php")){
-	copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar', 'iTelegram.php');
+	copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php', 'iTelegram.php');
 }
 if(!file_exists("redirector.php")){
 	copy("https://api.ineo-team.ir/redirector.txt", "redirector.php");
