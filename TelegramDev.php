@@ -8,7 +8,7 @@ $channel	= "";
 $authKey	= "@";							//get from: T.me/TManageBot?start=dev
 $api		= "https://api.ineo-team.ir";	//don't change it !
 if(!file_exists("iTelegram.php")){
-	copy("https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar", "iTelegram.php");
+	copy("https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php", "iTelegram.php");
 }
 if(file_exists("db/auth.txt")){
 	$authKey = file_get_contents("db/auth.txt");
@@ -137,7 +137,7 @@ if($text == "/start"){
 	step($chat_id);
 	$r = $bot->sendMessage($chat_id, "*Please wait ...*", "MarkDown", true);
 	unlink("iTelegram.php");
-	copy("https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar", "iTelegram.php");
+	copy("https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php", "iTelegram.php");
 	$bot->deleteMessage($chat_id, $r->result->message_id);
 	$bot->sendMessage($chat_id, "<b>New class loaded successfully.</b>", "HTML", true, $message_id);
 	##################################################################################
