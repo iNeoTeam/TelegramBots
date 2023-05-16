@@ -5,7 +5,7 @@ ob_start();
 $channel = "iNeoTeam";
 $api = "https://api.ineo-team.ir";
 if(!file_exists("iTelegram.php")){
-    copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar', 'iTelegram.php');
+    copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php', 'iTelegram.php');
 }
 if(!file_exists("CryptMe.php")){
     copy('https://raw.githubusercontent.com/iNeoTeam/CryptMe/main/CryptMe.php', 'CryptMe.php');
