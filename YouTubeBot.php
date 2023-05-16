@@ -10,7 +10,7 @@ $config = [
 ];
 #####################################################################################
 if(!file_exists("iTelegram.php")){
-    copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar', 'iTelegram.php');
+    copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php', 'iTelegram.php');
 }
 require_once('iTelegram.php');
 use iTelegram\Bot;
