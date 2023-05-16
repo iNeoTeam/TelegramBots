@@ -3,7 +3,7 @@ error_reporting(0);
 set_time_limit(0);
 ob_start();
 if(!file_exists("iTelegram.php")){
-    copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar', 'iTelegram.php');
+    copy('https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php', 'iTelegram.php');
 }
 require_once('iTelegram.php');
 use iTelegram\Bot;
@@ -22,7 +22,7 @@ if($text == "/start"){
 }elseif($text == "/update"){
 	$r = $bot->sendMessage($chat_id, "*Please wait ...*", "MarkDown", true);
 	unlink("iTelegram.php");
-	copy("https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.phar", "iTelegram.php");
+	copy("https://raw.githubusercontent.com/iNeoTeam/iTelegram/main/iTelegram.php", "iTelegram.php");
 	sleep(2); // for example
 	$bot->deleteMessage($chat_id, $r->result->message_id);
 	$bot->sendMessage($chat_id, "<b>New class loaded successfully.</b>", "HTML", true, $message_id);
